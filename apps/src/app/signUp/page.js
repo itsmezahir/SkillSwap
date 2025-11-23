@@ -1,10 +1,11 @@
 "use client";
-
 import { useState } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 export default function SignUpPage() {
   const [showPassword, setShowPassword] = useState(false);
+  const router = useRouter();
   const [form, setForm] = useState({
     firstName: "",
     lastName: "",
@@ -29,10 +30,17 @@ export default function SignUpPage() {
     setMessage("");
 
     try {
-      const res = await fetch("/api/auth/signUp", {
+      const res = await fetch("http://localhost:5000/auth/register", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(form),
+        body: JSON.stringify(
+          {
+            first_name : form.firstName,
+            last_name : form.lastName,
+            email : form.email,
+            password : form.password
+          }
+        ),
       });
 
       const data = await res.json();
@@ -45,6 +53,7 @@ export default function SignUpPage() {
 
       setMessage("Account created successfully!");
       setLoading(false);
+      router.push("/signIn");
     } catch (err) {
       setMessage("Error connecting to server.");
       setLoading(false);
