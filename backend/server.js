@@ -1,22 +1,14 @@
 require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
-const { Pool } = require("pg");
-const authRoutes = require("./routes/auth");
+const authRoutes = require("./controller/routes")
 
 const app = express();
 app.use(cors());
-app.use(express.json());
-
-// Connect ke PostgreSQL
-const pool = new Pool({
-  connectionString: process.env.DATABASE_URL,
-});
+app.use(express.json()); // ini
 
 // Testing endpoint
-app.get("/", (req, res) => {
-  res.send("Backend berjalan.");
-});
+app.use("/auth", authRoutes);
 
 // REGISTER
 app.post("/register", async (req, res) => {

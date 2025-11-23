@@ -18,7 +18,7 @@ export default function SignInPage() {
     setErrorMsg("");
 
     try {
-      const res = await fetch("http://localhost:5000/signIn", {
+      const res = await fetch("http://localhost:5000/auth/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
